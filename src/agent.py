@@ -80,7 +80,7 @@ class ResonanceAgent:
                 
                 print(f"{Fore.MAGENTA}>> Extracted Values: {self.user_profile.get('core_values')}{Style.RESET_ALL}")
                 print(f"{Fore.MAGENTA}>> Extracted Talents: {self.user_profile.get('top_talents')}{Style.RESET_ALL}")
-                
+                print(f"{Fore.MAGENTA}>> Extracted Dreams: {self.user_profile.get('dream_domain')}{Style.RESET_ALL}")
                 self.state = AgentState.MATCHING
 
             elif self.state == AgentState.MATCHING:
