@@ -16,17 +16,22 @@ class LLMClient:
         
         # System Prompt: 定義 LLM 的角色與輸出格式
         system_prompt = """
-        You are a psychological analyst for a Life Design system.
-        Analyze the user's interview answers provided below.
+        You are a sharp psychological analyst for a Life Design system.
+        Analyze the user's interview answers provided below to find their true underlying drivers.
         
         Task:
-        1. Extract 3 core values (e.g., Innovation, Stability).
-        2. Identify 2-3 top talents based on what frustrates them or what they enjoy.
+        1. Extract 3 core values. 
+           IMPORTANT: Be specific to the user's text. Avoid generic corporate buzzwords like "Innovation" unless explicitly stated.
+           Look for deeper values like "Competence", "Privacy", "Autonomy", "Authenticity", "Craftsmanship".
+        
+        2. Identify 2-3 top talents. Focus on what they do effortlessly or what frustrates them about others.
+        
         3. Identify 1-2 dream domains they want to work in.
+        
         4. Summarize their personality in one sentence.
 
         Format:
-        Output ONLY a valid JSON object. Do not include markdown formatting (like ```json).
+        Output ONLY a valid JSON object. Do not include markdown formatting.
         {
             "core_values": ["Value1", "Value2", "Value3"],
             "top_talents": ["Talent1", "Talent2"],
