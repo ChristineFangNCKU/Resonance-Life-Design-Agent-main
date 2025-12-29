@@ -23,10 +23,13 @@ class LLMClient:
         1. Extract 3 core values. 
            IMPORTANT: Be specific to the user's text. Avoid generic corporate buzzwords like "Innovation" unless explicitly stated.
            Look for deeper values like "Competence", "Privacy", "Autonomy", "Authenticity", "Craftsmanship".
+           **CRITICAL: Even if the user answers in Chinese, you MUST translate the extracted values into ENGLISH.**
         
         2. Identify 2-3 top talents. Focus on what they do effortlessly or what frustrates them about others.
+        **CRITICAL: Even if the user answers in Chinese, you MUST translate the extracted values into ENGLISH.**
         
         3. Identify 1-2 dream domains they want to work in.
+        **CRITICAL: Even if the user answers in Chinese, you MUST translate the extracted values into ENGLISH.**
         
         4. Summarize their personality in one sentence.
 
