@@ -52,29 +52,35 @@ class ResonanceAgent:
                 self.state = AgentState.Q_VALUES
 
             elif self.state == AgentState.Q_VALUES:
+                # [優化] 加入引導語：強調「標準」與「原則」
+                print_agent("Let's dig into your Core Values.")
                 ans = self.get_input(
-                    "Q1 [Values]: Who do you admire most and why? What principles drive you?", 
+                    "Q1: Who do you admire most and why? (Think about: What represent your non-negotiable principles? What standards do you live by?)", 
                     "values"
                 )
                 self.context.append(f"Values: {ans}")
                 self.state = AgentState.Q_TALENTS
 
             elif self.state == AgentState.Q_TALENTS:
+                # [優化] 加入引導語：強調「不耐煩」背後的「天賦」
+                print_agent("Let's discover your Innate Talents.")
                 ans = self.get_input(
-                    "Q2 [Talents]: When do you feel most impatient with others? What comes easy to you?", 
+                    "Q2: When do you feel most impatient with others? What comes naturally easy to you that others find hard? (e.g., focus, logic, empathy...)", 
                     "talents"
                 )
                 self.context.append(f"Talents: {ans}")
                 self.state = AgentState.Q_DREAMS
 
             elif self.state == AgentState.Q_DREAMS:
+                # [優化] 加入引導語：強調「改變現狀」與「內在熱情」
+                print_agent("Let's find your Dream Domain.")
                 ans = self.get_input(
-                    "Q3 [Dreams]: What books do you buy? What social problem makes you angry?", 
+                    "Q3: What books do you buy? What social problem makes you angry enough to want to CHANGE it? (Think about: What would you do even if you weren't paid?)", 
                     "dreams"
                 )
                 self.context.append(f"Dreams: {ans}")
                 self.state = AgentState.ANALYZING
-
+                
             elif self.state == AgentState.ANALYZING:
                 print_system("Analyzing your soul profile with LLM...")
                 self.user_profile = self.llm_client.analyze_user(self.context)

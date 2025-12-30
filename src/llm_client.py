@@ -1,6 +1,6 @@
 import requests
 import json
-import re  # [必要的修正] 加入正規表達式模組
+import re
 from .utils import print_system, load_knowledge_base, learn_new_concept
 
 # [Requirement: LLM API Usage]
@@ -10,7 +10,6 @@ MODEL_NAME = "gemma3:4b"
 
 class LLMClient:
     def analyze_user(self, context_history):
-        # 1. [Dynamic Knowledge] 讀取目前的知識庫
         kb = load_knowledge_base()
         values_str = ", ".join(kb['values'])
         talents_str = ", ".join(kb['talents'])
@@ -18,38 +17,52 @@ class LLMClient:
         
         context_str = "\n".join(context_history)
         
-        # 2. [Prompt Engineering] 
-        # 使用你指定的最優化 Prompt (Constraint Generation)
+        # [核心升級]：植入您定義的心理學分析框架
         system_prompt = f"""
-        You are a sharp psychological analyst. Analyze the user's answers.
+        You are an expert Life Design Psychologist. Your job is not just to extract keywords, but to interpret the **underlying psychology** of the user's answers based on the following framework.
+
+        **THEORETICAL FRAMEWORK (MUST FOLLOW):**
+
+        **1. CORE VALUES (The "Internal Compass"):**
+           - **Definition:** What the user believes is non-negotiable. Their standard for action. What they DO vs. what they DON'T DO.
+           - **Logic:** If they admire someone, ask "Why?" -> That quality is their value.
         
-        **ADAPTIVE KNOWLEDGE BASE:**
-        The system currently understands these concepts. PREFER mapping to these if they fit well.
+        **2. TOP TALENTS (The "Innate Gift", NOT just Skills):**
+           - **Definition:** Innate traits that require little effort (e.g., strong memory, high focus, aesthetic sense), NOT just learned skills (e.g., Python, Accounting).
+           - **The "Impatience" Clue:** If the user gets impatient with others for being X, it means the user is naturally gifted at the opposite of X.
+             - *Example:* "I hate slow people" -> Talent is "Efficiency/Speed".
+             - *Example:* "I hate messy logic" -> Talent is "Logical Structure".
+           - **Mapping:** You may infer suitable skills from these traits (e.g., Logic -> Coding), but prioritize the Trait first.
+
+        **3. DREAM DOMAINS (The "Intrinsic Motivation"):**
+           - **Definition:** What they would do even if unpaid. A deep passion or an ultimate goal.
+           - **The "Anger" Nuance (CRITICAL):**
+             - **Type A: Aversion (Hate/Avoidance):** "I hate discussing politics." -> User wants to AVOID this field. -> **EXCLUDE**.
+             - **Type B: Constructive Anger (Drive to Change):** "I am angry about social injustice." -> User wants to CHANGE this. -> **INCLUDE** (e.g., Social Reform).
+             - **Distinction:** Does the anger stem from "tiredness/disinterest" (Exclude) or "passion for improvement" (Include)?
+
+        **KNOWLEDGE BASE (Reference):**
         - Known Values: [{values_str}]
         - Known Talents: [{talents_str}]
         - Known Dream Domains: [{dreams_str}]
+        - (You may generate new terms if the user's concept is unique.)
 
-        **INSTRUCTIONS:**
-        1. Extract 3 Core Values (English). 
-           - Map to "Known Values" if close. If user expresses a NEW value, generate a concise English term for it.
-        
-        2. Identify 2-3 Top Talents (English).
-           - Map to "Known Talents" if close. If NEW, generate a concise English term.
+        **MAPPING RULES (CRITICAL):**
+        1. **PRIORITIZE EXISTING TERMS:** You MUST try to map the user's input to a "Known Concept" first.
+           - *Bad:* User says "Calm" -> You output "Calm" (New Term).
+           - *Good:* User says "Calm" -> You output "Balance" or "Simplicity" (Existing Term).
+        2. **ONLY create a new term if NO existing term fits.** - If you create a new term, ensure it is a high-level psychological concept, not just a translation of the user's word.
 
-        3. Identify 1-2 Dream Domains (English).
-           - Map to "Known Dream Domains" if close. If NEW, generate a concise English term.
-        
-        4. Summarize personality (English).
-
+        **OUTPUT FORMAT:**
         **CRITICAL:** - Even if user speaks Chinese, OUTPUT ONLY ENGLISH JSON.
-        - Output format must be strictly JSON.
+        Return a single VALID JSON object with a "reasoning" field first.
 
-        Format:
         {{
+            "reasoning": "Step-by-step psychological deduction. Explicitly explain how you distinguished 'Aversion' from 'Drive' in the Dream section.",
             "core_values": ["Value1", "Value2", "Value3"],
             "top_talents": ["Talent1", "Talent2"],
-            "dream_domain": ["Domain1","Domain2"], 
-            "analysis_summary": "..."
+            "dream_domain": ["Domain1"], 
+            "analysis_summary": "One sentence summary."
         }}
         """
 
@@ -68,18 +81,18 @@ class LLMClient:
             
             result_text = response.json().get('response', '')
             
-            # [FIX: 強力 JSON 清洗] 
-            # 這裡不改變 Prompt，只改變「如何讀取結果」，解決 Invalid control character 問題
+            # Regex Cleaning
             match = re.search(r'\{.*\}', result_text, re.DOTALL)
             if match:
                 clean_json = match.group(0)
             else:
                 clean_json = result_text
 
-            # 使用 strict=False 容忍換行符號等控制字元
             profile = json.loads(clean_json, strict=False)
             
-            # 3. [Self-Learning Loop] 學習新概念
+            if 'reasoning' in profile:
+                print_system(f"LLM Psychology Analysis:\n{profile['reasoning']}")
+
             learn_new_concept('values', profile.get('core_values', []))
             learn_new_concept('talents', profile.get('top_talents', []))
             learn_new_concept('dreams', profile.get('dream_domain', []))
@@ -88,7 +101,6 @@ class LLMClient:
 
         except Exception as e:
             print_system(f"LLM API Error: {e}")
-            print_system("Using fallback profile for demo continuity.")
             return {
                 "core_values": ["Innovation", "Resilience", "Impact"],
                 "top_talents": ["Strategic Thinking", "Design"],
