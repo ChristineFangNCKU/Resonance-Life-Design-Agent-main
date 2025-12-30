@@ -1,0 +1,148 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resonance Result</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        /* 隱藏捲軸但保留功能 */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen p-8">
+    
+    <header class="max-w-7xl mx-auto mb-10 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+        </div>
+        <div>
+            <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Resonance</h1>
+            <p class="text-sm text-slate-500 font-medium">Talent & Values Matching Database</p>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto">
+        <div id="card-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            </div>
+        
+        <div class="mt-12 text-center border-t border-slate-200 pt-8">
+           <p class="text-sm text-slate-400" id="footer-text">
+             Displaying candidates from the secure resonance database.
+           </p>
+        </div>
+    </main>
+
+    <script>
+        // 【關鍵】：Python 資料會從這裡注入
+        const users = [{"id": "u005", "name": "Jordan Lee", "major": "Fine Arts & Animation", "interview_summary": "I worship Hayao Miyazaki for his ability to craft entire worlds that feel more real than reality. I spend all my money on expensive art books and graphic novels. I have zero patience for bureaucracy or people who say 'we've always done it this way'—it kills the soul. My peak moments are when I'm sketching and realize I haven't eaten in six hours. I'm angry that the world forces adults to kill their inner child to survive. I want to create animation that allows people to escape and rediscover their imagination.", "profile": {"core_values": ["Creativity", "Freedom", "Authenticity"], "top_talents": ["Visual Storytelling", "Imaginative Thinking", "Breaking Convention"], "dream_domain": ["Animation", "Illustration", "Art & Design", "Education"]}, "score": 23, "breakdown": {"values": 20, "dreams": 0, "talents": 3}}, {"id": "u003", "name": "Elena Rodriguez", "major": "Sociology & Public Policy", "interview_summary": "I have endless admiration for Jane Addams and her grassroots community work. My room is piling up with ethnographies and books on restorative justice. I get incredibly impatient when people dismiss others' emotions as 'irrational' or 'unproductive'—empathy is a valid form of intelligence! I feel most alive when I'm facilitating a difficult dialogue between opposing groups and finding common ground. I am angry that our society prioritizes GDP over human well-being. I want to redesign community structures to ensure no one is left isolated.", "profile": {"core_values": ["Empathy", "Justice", "Connection"], "top_talents": ["Conflict Resolution", "Active Listening", "Community Building"], "dream_domain": ["Social Work", "Public Policy", "Social Impact"]}, "score": 15, "breakdown": {"values": 10, "dreams": 5, "talents": 0}}, {"id": "u001", "name": "Alex Chen", "major": "Business Design & Innovation", "interview_summary": "My bookshelf is entirely filled with biographies of disruptors like Elon Musk and copies of 'Zero to One' by Peter Thiel. I deeply respect those who rewrite the rules of the game. Nothing irritates me more than seeing inefficient systems or ugly, non-functional designs—I feel a physical need to fix them. People often say I could talk my way out of anything, but I prefer using that skill to pitch ideas. I harbor a deep anger towards how resources are hoarded and wasted while the world burns; I want to build ventures that scale solutions to these massive inequality problems.", "profile": {"core_values": ["Innovation", "Impact", "Efficiency"], "top_talents": ["Persuasive Communication", "Aesthetic Sensitivity", "System Optimization"], "dream_domain": ["Social Entrepreneurship", "Venture Capital", "Technology"]}, "score": 0, "breakdown": {"values": 0, "dreams": 0, "talents": 0}}, {"id": "u002", "name": "Sarah Jenkins", "major": "Computer Science & Cybersecurity", "interview_summary": "I don't really care about fame; I respect Linus Torvalds for building the infrastructure of the modern world from a basement. I recently snapped at a teammate who kept using buzzwords without understanding the underlying code—I can't stand superficiality. My happiest moments are at 3 AM, completely zoned in, debugging a complex kernel issue. My shelf is just O'Reilly technical manuals. It makes me furious to see technology becoming a tool for surveillance and control rather than liberation. I want to build systems that protect privacy and truth.", "profile": {"core_values": ["Truth", "Autonomy", "Competence"], "top_talents": ["Deep Focus", "Logical Debugging", "Technical Mastery"], "dream_domain": ["Open Source", "Cybersecurity", "Technology"]}, "score": 0, "breakdown": {"values": 0, "dreams": 0, "talents": 0}}, {"id": "u004", "name": "Hiroshi Tanaka", "major": "Finance & Economics", "interview_summary": "I look up to Warren Buffett, not just for the money, but for his incredible patience and discipline. I recently got annoyed when our project lead kept changing the timeline last minute—unpredictability stresses me out. I feel most capable when I'm organizing complex datasets into a perfectly balanced spreadsheet; there's a peace in order. I buy books on economic history and investment strategies. It frustrates me to see people fall into debt due to a lack of financial literacy. I want to create stable, long-term wealth management systems for families.", "profile": {"core_values": ["Security", "Discipline", "Responsibility"], "top_talents": ["Risk Assessment", "Financial Planning", "Data Organization"], "dream_domain": ["Wealth Management", "Economic Analysis", "Finance"]}, "score": 0, "breakdown": {"values": 0, "dreams": 0, "talents": 0}}, {"id": "u006", "name": "Priya Patel", "major": "Clinical Psychology", "interview_summary": "I deeply respect Brené Brown for teaching the world that vulnerability is strength. My bookshelf is a mix of trauma research and mindfulness guides. I get frustrated with 'hustle culture' that treats rest as a weakness. I feel most fulfilled when a friend tells me, 'I've never told anyone this before'—being a safe harbor is my natural state. It angers me that mental health care is a luxury privilege rather than a basic right. I want to build accessible healing spaces where people aren't judged for their pain.", "profile": {"core_values": ["Compassion", "Vulnerability", "Growth"], "top_talents": ["Deep Empathy", "Creating Safety", "Insight"], "dream_domain": ["Therapy", "Mental Health Advocacy"]}, "score": 0, "breakdown": {"values": 0, "dreams": 0, "talents": 0}}, {"id": "u007", "name": "André Chiang", "major": "Culinary Arts & Food Science", "interview_summary": "I don't cook to feed people; I cook to evoke memories. I admire Jiro Ono for his relentless pursuit of perfection in a single domain. I have no tolerance for 'good enough' or sloppy plating—every detail must be intentional. My flow state happens in the heat of the kitchen, orchestrating the pass like a conductor. I read books on fermentation chemistry and agricultural history. It breaks my heart to see fast food destroying our connection to the land and our palate. I want to create sustainable dining experiences that honor the ingredients.", "profile": {"core_values": ["Craftsmanship", "Hospitality", "Quality"], "top_talents": ["Sensory Analysis", "Process Optimization", "Aesthetic Sensitivity"], "dream_domain": ["Culinary Arts", "Education"]}, "score": 0, "breakdown": {"values": 0, "dreams": 0, "talents": 0}}];
+        const MAX_SCORE = 50; 
+
+        // 輔助函式：生成標籤 (對應 Tag.tsx)
+        function createTag(label, type) {
+            let colorClass = '';
+            switch(type) {
+                case 'CORE_VALUE': // Red/Warm
+                    colorClass = 'bg-rose-100 text-rose-800 border-rose-200';
+                    break;
+                case 'TOP_TALENT': // Green/Teal
+                    colorClass = 'bg-emerald-100 text-emerald-800 border-emerald-200';
+                    break;
+                case 'DREAM_DOMAIN': // Blue/Purple
+                    colorClass = 'bg-indigo-100 text-indigo-800 border-indigo-200';
+                    break;
+                default:
+                    colorClass = 'bg-slate-100 text-slate-800 border-slate-200';
+            }
+            return `<span class="inline-block px-3 py-1 rounded-full text-xs font-semibold border ${colorClass} mr-2 mb-2 transition-colors duration-200">${label}</span>`;
+        }
+
+        const container = document.getElementById('card-container');
+        document.getElementById('footer-text').innerText = `Displaying ${users.length} candidates from the secure resonance database.`;
+
+        users.forEach(user => {
+            // 計算寬度 (對應 UserCard.tsx 的邏輯)
+            const breakdown = user.breakdown || { values: 0, dreams: 0, talents: 0 };
+            const totalScore = user.score; // 直接用 Python 傳來的總分
+            
+            const w_v = (breakdown.values / MAX_SCORE) * 100;
+            const w_d = (breakdown.dreams / MAX_SCORE) * 100;
+            const w_t = (breakdown.talents / MAX_SCORE) * 100;
+
+            // 生成標籤 HTML
+            const valuesTags = user.profile.core_values.map(v => createTag(v, 'CORE_VALUE')).join('');
+            const talentsTags = user.profile.top_talents.map(v => createTag(v, 'TOP_TALENT')).join('');
+            const dreamsTags = user.profile.dream_domain.map(v => createTag(v, 'DREAM_DOMAIN')).join('');
+
+            // 建立卡片 DOM (完全複製 UserCard.tsx 的結構)
+            const card = document.createElement('div');
+            card.className = "group relative flex flex-col h-full bg-white rounded-xl shadow-md border border-slate-100 hover:shadow-xl hover:-translate-y-1 hover:border-indigo-100 transition-all duration-300 ease-out overflow-hidden";
+            
+            card.innerHTML = `
+                <div class="p-6 pb-2 border-b border-slate-50">
+                    <div class="flex justify-between items-baseline mb-1">
+                        <h2 class="text-xl font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">${user.name}</h2>
+                        <span class="text-xs font-mono text-slate-400">#${user.id}</span>
+                    </div>
+                    <h3 class="text-sm font-medium text-slate-500 uppercase tracking-wide">${user.major}</h3>
+                </div>
+
+                <div class="px-6 py-4 bg-slate-50/50 flex-grow">
+                    <div class="relative pl-4 border-l-4 border-slate-300 group-hover:border-indigo-400 transition-colors duration-300">
+                        <p class="text-sm italic text-slate-600 leading-relaxed line-clamp-3 group-hover:line-clamp-none transition-all duration-500 ease-in-out">
+                            "${user.interview_summary}"
+                        </p>
+                    </div>
+                </div>
+
+                <div class="px-6 pt-4 pb-4 space-y-4 bg-white mt-auto">
+                    <div>
+                        <h4 class="text-[10px] uppercase font-bold text-rose-500 mb-2 flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> Core Values
+                        </h4>
+                        <div class="flex flex-wrap">${valuesTags}</div>
+                    </div>
+                    <div>
+                        <h4 class="text-[10px] uppercase font-bold text-emerald-600 mb-2 flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Top Talents
+                        </h4>
+                        <div class="flex flex-wrap">${talentsTags}</div>
+                    </div>
+                    <div>
+                        <h4 class="text-[10px] uppercase font-bold text-indigo-600 mb-2 flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span> Dream Domains
+                        </h4>
+                        <div class="flex flex-wrap">${dreamsTags}</div>
+                    </div>
+                </div>
+
+                <div class="px-6 pt-2 pb-5 border-t border-slate-100 bg-white">
+                    <div class="flex justify-between items-end mb-2">
+                        <span class="text-xs font-bold text-slate-700 uppercase tracking-wider">
+                            Resonance Score: <span class="text-slate-900 text-sm">${totalScore}</span>
+                        </span>
+                    </div>
+                    <div class="flex h-3 w-full bg-gray-200 rounded-full overflow-hidden">
+                        <div style="width: ${w_v}%" class="bg-rose-500 h-full" title="Values: ${breakdown.values}"></div>
+                        <div style="width: ${w_d}%" class="bg-blue-500 h-full" title="Dreams: ${breakdown.dreams}"></div>
+                        <div style="width: ${w_t}%" class="bg-emerald-500 h-full" title="Talents: ${breakdown.talents}"></div>
+                    </div>
+                    <div class="flex items-center gap-3 mt-2 text-[10px] font-medium text-slate-500">
+                        <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-rose-500"></span> Values</div>
+                        <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-blue-500"></span> Dreams</div>
+                        <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> Talents</div>
+                    </div>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    </script>
+</body>
+</html>

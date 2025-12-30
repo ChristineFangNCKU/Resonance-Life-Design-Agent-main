@@ -1,5 +1,6 @@
 import requests
 import json
+import re  # [必要的修正] 加入正規表達式模組
 from .utils import print_system, load_knowledge_base, learn_new_concept
 
 # [Requirement: LLM API Usage]
@@ -18,7 +19,7 @@ class LLMClient:
         context_str = "\n".join(context_history)
         
         # 2. [Prompt Engineering] 
-        # 這裡使用了 "Constraint Generation" (限制生成) 技巧
+        # 使用你指定的最優化 Prompt (Constraint Generation)
         system_prompt = f"""
         You are a sharp psychological analyst. Analyze the user's answers.
         
@@ -47,7 +48,7 @@ class LLMClient:
         {{
             "core_values": ["Value1", "Value2", "Value3"],
             "top_talents": ["Talent1", "Talent2"],
-            "dream_domain": ["Domain1"], 
+            "dream_domain": ["Domain1","Domain2"], 
             "analysis_summary": "..."
         }}
         """
@@ -66,13 +67,19 @@ class LLMClient:
             response.raise_for_status()
             
             result_text = response.json().get('response', '')
-            clean_json = result_text.replace("```json", "").replace("```", "").strip()
             
-            profile = json.loads(clean_json)
+            # [FIX: 強力 JSON 清洗] 
+            # 這裡不改變 Prompt，只改變「如何讀取結果」，解決 Invalid control character 問題
+            match = re.search(r'\{.*\}', result_text, re.DOTALL)
+            if match:
+                clean_json = match.group(0)
+            else:
+                clean_json = result_text
+
+            # 使用 strict=False 容忍換行符號等控制字元
+            profile = json.loads(clean_json, strict=False)
             
             # 3. [Self-Learning Loop] 學習新概念
-            # 這裡會自動把 LLM 這次產出的所有標籤，拿去跟知識庫比對
-            # 如果是新的，就會觸發 [Learning] 訊息並存檔
             learn_new_concept('values', profile.get('core_values', []))
             learn_new_concept('talents', profile.get('top_talents', []))
             learn_new_concept('dreams', profile.get('dream_domain', []))

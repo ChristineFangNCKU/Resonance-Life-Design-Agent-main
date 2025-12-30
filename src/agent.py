@@ -4,7 +4,7 @@ from colorama import Fore, Style
 from .utils import print_system, print_agent, print_user
 from .llm_client import LLMClient
 from .matcher import ResonanceMatcher
-from .visualizer import plot_resonance_spectrum
+from .web_visualizer import generate_web_report
 
 class AgentState(Enum):
     """[Requirement: State Machine] 定義狀態"""
@@ -112,5 +112,5 @@ class ResonanceAgent:
         print("-" * 50)
         print(f"{Fore.GREEN}Action Item: You two should discuss '{self.user_profile.get('dream_domain')[0]}' projects!{Style.RESET_ALL}")
 
-        # [NEW] 加入這行來呼叫視覺化
-        plot_resonance_spectrum(self.matches)
+        # [NEW] 加入這行來呼叫網頁生成器
+        generate_web_report(self.matches)

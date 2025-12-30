@@ -17,7 +17,8 @@
       ],
       "dream_domain": [
         "Social Entrepreneurship",
-        "Venture Capital"
+        "Venture Capital",
+        "Technology"
       ]
     }
   },
@@ -39,7 +40,8 @@
       ],
       "dream_domain": [
         "Open Source",
-        "Cybersecurity"
+        "Cybersecurity",
+        "Technology"
       ]
     }
   },
@@ -61,7 +63,8 @@
       ],
       "dream_domain": [
         "Social Work",
-        "Public Policy"
+        "Public Policy",
+        "Social Impact"
       ]
     }
   },
@@ -83,7 +86,8 @@
       ],
       "dream_domain": [
         "Wealth Management",
-        "Economic Analysis"
+        "Economic Analysis",
+        "Finance"
       ]
     }
   },
@@ -105,7 +109,9 @@
       ],
       "dream_domain": [
         "Animation",
-        "Illustration"
+        "Illustration",
+        "Art & Design",
+        "Education"
       ]
     }
   },
@@ -128,6 +134,28 @@
       "dream_domain": [
         "Therapy",
         "Mental Health Advocacy"
+      ]
+    }
+  },
+  {
+    "id": "u007",
+    "name": "André Chiang",
+    "major": "Culinary Arts & Food Science",
+    "interview_summary": "I don't cook to feed people; I cook to evoke memories. I admire Jiro Ono for his relentless pursuit of perfection in a single domain. I have no tolerance for 'good enough' or sloppy plating—every detail must be intentional. My flow state happens in the heat of the kitchen, orchestrating the pass like a conductor. I read books on fermentation chemistry and agricultural history. It breaks my heart to see fast food destroying our connection to the land and our palate. I want to create sustainable dining experiences that honor the ingredients.",
+    "profile": {
+      "core_values": [
+        "Craftsmanship",
+        "Hospitality",
+        "Quality"
+      ],
+      "top_talents": [
+        "Sensory Analysis",
+        "Process Optimization",
+        "Aesthetic Sensitivity"
+      ],
+      "dream_domain": [
+        "Culinary Arts",
+        "Education"
       ]
     }
   }
