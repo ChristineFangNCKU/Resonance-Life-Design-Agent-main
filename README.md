@@ -35,31 +35,31 @@
 ```mermaid
 %%{init: {'theme': 'neutral', 'themeVariables': { 'primaryColor': '#E1E8F0', 'edgeLabelBackground':'#ffffff', 'tertiaryColor': '#fff0f0'}}}%%
 graph TD
-    subgraph User Interaction Layer
+    subgraph UI_Layer ["User Interaction Layer"]
         User((User)) <-->|Terminal I/O| Main[main.py]
     end
 
-    subgraph Agent Core Layer (FSM)
+    subgraph Agent_Layer ["Agent Core Layer (FSM)"]
         Main -->|Initializes| Agent[agent.py<br/>Finite State Machine]
         Agent -- States: Q_VALUES, Q_TALENTS, Q_DREAMS --> Agent
     end
 
-    subgraph Cognitive Layer (Brain)
+    subgraph Cognitive_Layer ["Cognitive Layer (Brain)"]
         Agent -->|State: ANALYZING<br/>Sends Context| LLMClient[llm_client.py<br/>Psychological Analyst]
-        KB[(data/knowledge_base.json<br/>Traits & Values Ontology)] <-->|Reads / Learns New Concepts| LLMClient
+        KB[("data/knowledge_base.json<br/>Traits & Values Ontology")] <-->|Reads / Learns New Concepts| LLMClient
         LLMClient -->|Prompt + CoT| LLM_API(External LLM API<br/>Gemma-3)
         LLM_API -->|JSON Profile + Reasoning| LLMClient
         LLMClient -->|Normalized Profile| Agent
     end
 
-    subgraph Matching Layer (Engine)
+    subgraph Matching_Layer ["Matching Layer (Engine)"]
         Agent -->|State: MATCHING<br/>Sends User Profile| Matcher[matcher.py<br/>Resonance Engine]
-        DB[(data/mock_database.json<br/>Candidate Archetypes)] -->|Loads Candidates| Matcher
+        DB[("data/mock_database.json<br/>Candidate Archetypes")] -->|Loads Candidates| Matcher
         Matcher -->|Calculates Weighted Score| Matcher
         Matcher -->|Ranked Matches| Agent
     end
 
-    subgraph Presentation Layer (Output)
+    subgraph Output_Layer ["Presentation Layer (Output)"]
         Agent -->|State: REPORT<br/>Prints Summary| TerminalOutput(Terminal Output)
         Agent -->|Sends Match Data| WebViz[web_visualizer.py<br/>HTML Generator]
         WebViz -->|Generates & Opens| Browser(Web Browser<br/>Interactive Report)
@@ -71,7 +71,6 @@ graph TD
     style WebViz fill:#9575cd,stroke:#333,stroke-width:2px
     style KB fill:#cfd8dc,stroke:#333,stroke-dasharray: 5 5
     style DB fill:#cfd8dc,stroke:#333,stroke-dasharray: 5 5
-
 ## 📂 檔案結構 (File Structure)
 
 ```text
