@@ -33,30 +33,44 @@
 本系統採用狀態機 (State Machine) 模型設計，如下圖所示：
 
 ```mermaid
+%%{init: {'theme': 'neutral', 'themeVariables': { 'primaryColor': '#E1E8F0', 'edgeLabelBackground':'#ffffff', 'tertiaryColor': '#fff0f0'}}}%%
 graph TD
-    Start([啟動 Agent]) --> ModeCheck{Demo Mode?}
-    ModeCheck -->|Yes| FastTrack[讀取預設文本]
-    ModeCheck -->|No| Q_Values[階段一：價值觀提問]
-    
-    Q_Values --> Q_Talents[階段二：天賦與才能提問]
-    Q_Talents --> Q_Dreams[階段三：夢想提問]
-    
-    Q_Dreams --> Synthesis
-    FastTrack --> Synthesis[資料聚合]
-    
-    Synthesis --> Analysis[LLM 分析與結構化 (Ollama API)]
-    Analysis --> |生成| User_JSON[建立靈魂檔案 JSON]
-    
-    User_JSON --> Matching[共振演算法運算]
-    
-    subgraph Resonance_Logic [配對邏輯]
-    Matching --> Filter{價值觀檢核}
-    Filter --> Score[計算互補分數]
+    subgraph User Interaction Layer
+        User((User)) <-->|Terminal I/O| Main[main.py]
     end
-    
-    Score --> Output([輸出：人生報告與夥伴推薦])
 
-```
+    subgraph Agent Core Layer (FSM)
+        Main -->|Initializes| Agent[agent.py<br/>Finite State Machine]
+        Agent -- States: Q_VALUES, Q_TALENTS, Q_DREAMS --> Agent
+    end
+
+    subgraph Cognitive Layer (Brain)
+        Agent -->|State: ANALYZING<br/>Sends Context| LLMClient[llm_client.py<br/>Psychological Analyst]
+        KB[(data/knowledge_base.json<br/>Traits & Values Ontology)] <-->|Reads / Learns New Concepts| LLMClient
+        LLMClient -->|Prompt + CoT| LLM_API(External LLM API<br/>Gemma-3)
+        LLM_API -->|JSON Profile + Reasoning| LLMClient
+        LLMClient -->|Normalized Profile| Agent
+    end
+
+    subgraph Matching Layer (Engine)
+        Agent -->|State: MATCHING<br/>Sends User Profile| Matcher[matcher.py<br/>Resonance Engine]
+        DB[(data/mock_database.json<br/>Candidate Archetypes)] -->|Loads Candidates| Matcher
+        Matcher -->|Calculates Weighted Score| Matcher
+        Matcher -->|Ranked Matches| Agent
+    end
+
+    subgraph Presentation Layer (Output)
+        Agent -->|State: REPORT<br/>Prints Summary| TerminalOutput(Terminal Output)
+        Agent -->|Sends Match Data| WebViz[web_visualizer.py<br/>HTML Generator]
+        WebViz -->|Generates & Opens| Browser(Web Browser<br/>Interactive Report)
+    end
+
+    style Agent fill:#d4e157,stroke:#333,stroke-width:2px
+    style LLMClient fill:#4db6ac,stroke:#333,stroke-width:2px
+    style Matcher fill:#ffb74d,stroke:#333,stroke-width:2px
+    style WebViz fill:#9575cd,stroke:#333,stroke-width:2px
+    style KB fill:#cfd8dc,stroke:#333,stroke-dasharray: 5 5
+    style DB fill:#cfd8dc,stroke:#333,stroke-dasharray: 5 5
 
 ## 📂 檔案結構 (File Structure)
 
