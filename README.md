@@ -151,8 +151,4 @@ $$ Resonance Score = (Values \times 10) + (Dreams \times 5) + (Talents \times 3)
 
 ---
 
-*Created for 2025 Theory of Computation Final Project*
-
-```
-
 
