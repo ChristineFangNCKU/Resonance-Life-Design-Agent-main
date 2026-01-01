@@ -1,10 +1,3 @@
-這是一份經過最終潤飾、完整且專業的 `README.md`。它整合了您的所有技術創新（思維鏈、特質重構、情緒過濾、網頁生成器），並以符合學術專案（TOC Final Project）的高標準呈現。
-
-您可以直接複製以下內容並儲存為 `README.md`。
-
----
-
-```markdown
 # ((o)) Resonance: AI-Powered Life Design Agent
 
 > **TOC 2025 Final Project**
@@ -162,5 +155,4 @@ $$ Resonance Score = (Values \times 10) + (Dreams \times 5) + (Talents \times 3)
 
 ```
 
-```
 
