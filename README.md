@@ -1,37 +1,41 @@
-# Resonance-Life-Design-Agent
-> 2025 Theory of Computation Final Project
-> **Topic:** Intelligent Agents with LLMs - Life Design & Social Resonance Matching
+# ((o)) Resonance: AI-Powered Life Design Agent
+
+> **TOC 2025 Final Project**
+>
+> Moving beyond keyword matching to understand the *psychological intent* behind human potential.
+
+---
 
 ## 📖 專案簡介 (Introduction)
 
-**Resonance Agent** 是一個基於大型語言模型 (LLM) 的智慧代理人系統。不同於傳統的交友軟體只關注外在條件，本系統旨在透過深度的「人生設計訪談」，協助使用者探索核心價值。
+**Resonance** 不僅僅是一個配對工具，它是基於大型語言模型 (LLM) 的**心理分析代理人 (Psychological Profiler Agent)**。
 
-本專案結合了 **Life Design (人生設計)** 與 **Resonance Algorithm (共振演算法)**，將非結構化的對話轉化為可量化的「人生向量」，並據此尋找能夠在夢想與天賦上互補的「成長夥伴 (Growth Partners)」。
+傳統的配對系統依賴表面的關鍵字對應（例如：使用者說 "Python" -> 配對 "工程師"）。Resonance 則透過先進的 Prompt Engineering 技術——包含 **思維鏈 (Chain of Thought)**、**情緒過濾 (Sentiment Filtering)** 與 **特質重構 (Reframing)**——深入解讀使用者回答背後的「意圖」，識別其內在天賦、核心價值與深層動機。
 
-## ✨ 核心功能 (Key Features)
+系統最終會將使用者與資料庫中的原型人物進行共振配對，並生成一份動態的「靈魂光譜 (Resonance Spectrum)」網頁報告。
 
-1. **深度訪談狀態機 (Interview State Machine)**：
-* 透過引導式對話，依序探索使用者的 **價值觀 (Values)**、**天賦 (Talents)** 與 **夢想 (Dreams)**。
-* 支援 **Demo Mode**，可直接讀取使用者文本進行快速分析。
+## 🧠 核心創新：心理學分析框架 (Psychological Framework)
 
+本系統的狀態機 (FSM) 設計圍繞著一套特定的心理學訪談邏輯。我們不問你「會做什麼」，而是問你「如何回應世界」。
 
-2. **LLM 語意分析 (Semantic Analysis)**：
-* 串接 **Ollama API** ，將自然語言對話轉化為結構化的 JSON 靈魂檔案 (Soul Profile)。
+| 訪談階段 (FSM State) | 提問策略 (Question Strategy) | 背後的心理學洞察 (LLM Task) |
+| :--- | :--- | :--- |
+| **Stage 1: Values** | "你崇拜誰？為什麼？" | **不可妥協的原則 (Principles):** 透過崇拜對象投射出使用者的人生標準。 |
+| **Stage 2: Talents** | "你對什麼感到不耐煩？" | **天賦的鏡像 (Mirroring):** 對他人的不耐煩，往往反映了使用者自身毫不費力的天賦 (e.g., 討厭混亂 = 結構化思維)。 |
+| **Stage 3: Dreams** | "什麼社會問題讓你憤怒？" | **內在驅動力 (Constructive Anger):** 區分「厭惡 (Aversion)」與「想改變的動力 (Drive)」。 |
 
+## ✨ 關鍵技術特點 (Key Features)
 
-* 自動生成「天賦 x 夢想」的人生方向建議。
+* **🧠 深度意圖分析 (Chain of Thought):** 系統不會只輸出標籤。它強制 LLM 先進行 `reasoning` 推理，解釋如何從模糊的口語中推導出心理特質。
+* **🔄 特質重構機制 (Reframing Logic):** 自動將看似負面的特質轉化為正向優勢（例如：將「偷懶/無為」重構為「策略性效率」）。
+* **🛡️ 建設性憤怒過濾器 (Anger Filter):** 智慧分辨使用者是單純「討厭」某事（排除），還是對某事感到憤怒並「想改變它」（納入夢想）。
+* **🌱 自適應知識庫 (Self-Learning Knowledge Base):** 系統內建心理學本體論，並能隨著對話動態學習新概念 (`knowledge_base.json`)。
+* **📊 去技能化配對 (De-skilling Matching):** 配對基礎是「認知特質 (Traits)」而非「硬技能 (Skills)」，實現跨領域的靈魂共振。
+* **🌐 高保真網頁視覺化 (High-Fidelity Web Viz):** 自動生成互動式 HTML 報告，以堆疊長條圖呈現共振細節。
 
+## 🏗️ 系統架構 (System Architecture)
 
-3. **共振配對演算法 (Resonance Matching Algorithm)**：
-* 計算使用者與資料庫中潛在夥伴的適配度。
-* **邏輯**：價值觀一致 (Alignment) + 夢想同向 (Direction) + 天賦互補 (Complementarity)。
-
-
-
-## ⚙️ 系統架構 (System Architecture)
-
-本系統採用狀態機 (State Machine) 模型設計，如下圖所示：
-
+本系統採用模組化設計，由有限狀態機 (FSM) 驅動數據流：
 ```mermaid
 %%{init: {'theme': 'neutral', 'themeVariables': { 'primaryColor': '#E1E8F0', 'edgeLabelBackground':'#ffffff', 'tertiaryColor': '#fff0f0'}}}%%
 graph TD
@@ -72,72 +76,33 @@ graph TD
     style KB fill:#cfd8dc,stroke:#333,stroke-dasharray: 5 5
     style DB fill:#cfd8dc,stroke:#333,stroke-dasharray: 5 5
 ```
-## 📂 檔案結構 (File Structure)
+📂 檔案結構
+Plaintext
 
-```text
-Resonance-Agent/
+.
 ├── data/
-│   └── mock_database.json   # 預先生成的虛擬夥伴資料庫 (用於演示配對功能)
+│   ├── knowledge_base.json  # 心理特質本體論 (具備學習能力)
+│   └── mock_database.json   # 已去技能化的候選人原型資料庫
 ├── src/
-│   ├── agent.py             # 核心 Agent 類別 (狀態機邏輯實作)
-│   ├── llm_client.py        # Ollama API 串接模組
-│   ├── matcher.py           # Resonance 配對演算法
-│   └── utils.py             # 工具函式 (JSON 處理、CLI 美化)
+│   ├── agent.py             # FSM 狀態機核心
+│   ├── llm_client.py        # LLM 串接與 Prompt Engineering
+│   ├── matcher.py           # 共振加權演算法
+│   ├── utils.py             # 工具函式
+│   └── web_visualizer.py    # 動態網頁生成器
 ├── main.py                  # 程式進入點
-├── requirements.txt         # 專案依賴套件
-└── README.md                # 專案說明文件
+├── README.md                # 說明文件
+└── requirements.txt         # 相依套件
+🚀 快速開始
+安裝套件:
 
-```
+Bash
 
-## 🚀 快速開始 (Quick Start)
-
-### 1. 環境設定 (Prerequisites)
-
-確保已安裝 Python 3.8+。
-
-```bash
-# Clone 此專案
-git clone https://github.com/YourUsername/Resonance-Life-Design-Agent.git
-cd Resonance-Life-Design-Agent
-
-# 安裝依賴套件
 pip install -r requirements.txt
+執行程式:
 
-```
+Bash
 
-### 2. 設定 API Key
-
-本專案使用助教提供的 Ollama API 服務。請在專案根目錄建立 `.env` 檔案或直接在 `src/llm_client.py` 中設定：
-
-```python
-# src/llm_client.py
-API_KEY = "your_provided_api_key"
-API_URL = "http://140.116.xxx.xxx:11434/api/generate" # 依助教公告為準
-
-```
-
-### 3. 執行程式
-
-執行 `main.py` 啟動代理人：
-
-```bash
 python main.py
+進行訪談: 依照心理學引導回答三個問題。
 
-```
-
-* **一般模式**：依照指示回答問題進行完整訪談。
-* **Demo 模式**：程式會自動載入預設回答，展示分析與配對結果（適合期末展示）。
-
-## 🧠 演算法設計 (Algorithm Design)
-
-我們定義兩個人  (User) 與  (Candidate) 之間的共振分數 ：
-
-*  (Values Match): 價值觀重疊度 (必要條件，若為 0 則總分為 0)。
-*  (Dream Alignment): 夢想領域的相關性。
-*  (Talent Complementarity): 天賦的互補性（例如：技術 + 行銷）。
-
-## 📝 開發工具與引用 (Tools & Credits)
-
-* **LLM Engine**: Meta Llama 3 (via Ollama API)
-* **Development Assistant**: Google AI Studio & Gemini (for data generation & prompt engineering)
-* **Diagrams**: Mermaid.js
+查看結果: 終端機將顯示分析摘要，瀏覽器將自動彈出詳細的視覺化報告。
